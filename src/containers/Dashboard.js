@@ -24,24 +24,17 @@ class Dashboard extends Component {
       if (error) throw error;
       this.setState({
         waveHeightAndWindSpeedData: {
-          labels: data
-            .filter(
-              entry => entry.sea_surface_wave_significant_height !== "null"
-            )
+          labels: data.filter(entry => entry.sea_surface_wave_significant_height !== "null")
             .map(entry => moment(entry.datetime).format("MMM D, h:mm:ss a")),
           datasets: [
             {
               label: "Wave Height M",
-              data: data
-                .map(entry => entry.sea_surface_wave_significant_height)
+              data: data.map(entry => entry.sea_surface_wave_significant_height)
                 .filter(entry => entry !== "null")
             },
             {
               label: "Wind Speed m/s",
-              data: data
-                .filter(
-                  entry => entry.sea_surface_wave_significant_height !== "null"
-                )
+              data: data.filter(entry => entry.sea_surface_wave_significant_height !== "null")
                 .map(entry => entry.wind_speed_at_10m_above_ground_level)
                 .filter(entry => entry !== undefined),
               type: "line"
@@ -52,27 +45,19 @@ class Dashboard extends Component {
     });
   };
 
-  getSurfaceSeaWaterSpeed = async () => {
-    const surfaceSeaWaterSpeed = [];
-    Object.keys(jsonData)
-      .sort()
-      .forEach(key => {
-        if (key && jsonData[key].surface_sea_water_speed) {
-          surfaceSeaWaterSpeed.push({
-            key,
-            value: jsonData[key].surface_sea_water_speed
-          });
-        }
-      });
-    await this.setState({
+  getSurfaceSeaWaterSpeed = () => {
+    const timeStamp = Object.keys(jsonData).sort().map(key=> key)
+      .filter(key=> jsonData[key].surface_sea_water_speed !==undefined);
+    this.setState({
       surfaceSeaWaterSpeedData: {
-        labels: surfaceSeaWaterSpeed.map(entry =>
+        labels: timeStamp.map(entry =>
           moment(entry.key).format("MMM D, h:mm:ss a")
         ),
         datasets: [
           {
             label: "Speed m/s",
-            data: surfaceSeaWaterSpeed.map(entry => entry.value)
+            data: timeStamp.map(key=> jsonData[key].surface_sea_water_speed)
+            .filter(entry=> entry !==undefined)
           }
         ]
       }
