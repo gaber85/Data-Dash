@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment";
 import { csv } from "d3-request";
-import BarGraph from "../components/BarGraph";
+import Graph from "../components/Graph";
 import jsonData from "../weatherData/data.json";
 import csvData from "../weatherData/data.csv";
 
@@ -22,10 +22,10 @@ class Dashboard extends Component {
   getWaveHeightAndWindSpeed = () => {
     csv(csvData, (error, data) => {
       if (error) throw error;
+      const dates = data.filter(entry => entry.sea_surface_wave_significant_height !== "null")
       this.setState({
         waveHeightAndWindSpeedData: {
-          labels: data.filter(entry => entry.sea_surface_wave_significant_height !== "null")
-            .map(entry => moment(entry.datetime).format("MMM D, h:mm:ss a")),
+          labels: dates.map(entry => moment(entry.datetime).format("MMM D, h:mm:ss a")),
           datasets: [
             {
               label: "Wave Height M",
@@ -34,8 +34,7 @@ class Dashboard extends Component {
             },
             {
               label: "Wind Speed m/s",
-              data: data.filter(entry => entry.sea_surface_wave_significant_height !== "null")
-                .map(entry => entry.wind_speed_at_10m_above_ground_level)
+              data: dates.map(entry => entry.wind_speed_at_10m_above_ground_level)
                 .filter(entry => entry !== undefined),
               type: "line"
             }
@@ -46,17 +45,17 @@ class Dashboard extends Component {
   };
 
   getSurfaceSeaWaterSpeed = () => {
-    const timeStamp = Object.keys(jsonData).sort().map(key=> key)
+    const dates = Object.keys(jsonData).sort().map(key=> key)
       .filter(key=> jsonData[key].surface_sea_water_speed !==undefined);
     this.setState({
       surfaceSeaWaterSpeedData: {
-        labels: timeStamp.map(entry =>
-          moment(entry.key).format("MMM D, h:mm:ss a")
+        labels: dates.map(time =>
+          moment(time).format("MMM D, h:mm:ss a")
         ),
         datasets: [
           {
             label: "Speed m/s",
-            data: timeStamp.map(key=> jsonData[key].surface_sea_water_speed)
+            data: dates.map(key=> jsonData[key].surface_sea_water_speed)
             .filter(entry=> entry !==undefined)
           }
         ]
@@ -68,17 +67,21 @@ class Dashboard extends Component {
     const { surfaceSeaWaterSpeedData, waveHeightAndWindSpeedData } = this.state;
     return (
       <div>
-        <BarGraph
+        <Graph
           graphData={surfaceSeaWaterSpeedData}
           text="Surface Seawater Speed (Nov 7 - 14 2018)"
+          type="line"
         />
-        <BarGraph
+        <Graph
           graphData={waveHeightAndWindSpeedData}
           text="The Impact of Wind Speed on Wave Height"
+          type="bar"
         />
       </div>
     );
   }
 }
+
+
 
 export default Dashboard;
