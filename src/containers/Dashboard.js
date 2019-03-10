@@ -21,10 +21,11 @@ class Dashboard extends Component {
     this.getSurfaceSeaWaterSpeed();
     this.getWaveHeightAndWindSpeed();
     this.getWindDirectionAndSpeed();
-    this.getDaylyAirTemperature();
+    this.getDailyAirTemperature();
   }
 
   getWaveHeightAndWindSpeed = () => {
+    // takes data from the csv files and sets the state in the graph format
     csv(csvData, (error, data) => {
       if (error) throw error;
       const dates = data.filter(entry => entry.sea_surface_wave_significant_height !== "null")
@@ -54,6 +55,7 @@ class Dashboard extends Component {
   };
 
   getSurfaceSeaWaterSpeed = () => {
+    // takes data from the json file and converts it to graph usable format
     const dates = Object.keys(jsonData).sort().map(key=> key)
       .filter(key=> jsonData[key].surface_sea_water_speed !==undefined);
     this.setState({
@@ -102,7 +104,7 @@ class Dashboard extends Component {
     });
   }
 
-  getDaylyAirTemperature = () => {
+  getDailyAirTemperature = () => {
     const day = [];
     csv(csvData, (error, data) => {
       if (error) throw error;
