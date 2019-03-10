@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from '@emotion/styled';
-import './App.css';
 import Dashboard from './containers/Dashboard';
 import Nav from './components/Nav';
 
