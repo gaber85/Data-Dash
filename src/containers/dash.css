@@ -1,0 +1,12 @@
+.graph-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: whitesmoke;
+}
+
+.water-speed-graph {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
