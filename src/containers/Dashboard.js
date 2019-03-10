@@ -14,6 +14,7 @@ class Dashboard extends Component {
       surfaceSeaWaterSpeedData: {},
       waveHeightAndWindSpeedData: {},
       windDirectionAndSpeedData: {},
+      dailyAirTemperature: {},
     };
   }
 
@@ -21,6 +22,7 @@ class Dashboard extends Component {
     this.getSurfaceSeaWaterSpeed();
     this.getWaveHeightAndWindSpeed();
     this.getWindDirectionAndSpeed();
+    this.getDaylyAirTemperature();
   }
 
   getWaveHeightAndWindSpeed = () => {
@@ -93,8 +95,30 @@ class Dashboard extends Component {
     });
   }
 
+  getDaylyAirTemperature = () => {
+    const day = [];
+    csv(csvData, (error, data) => {
+      if (error) throw error;
+      data.forEach(entry=> {
+        if (day.indexOf(moment(entry.datetime).format('dddd')) === -1) day.push(moment(entry.datetime).format('dddd'));
+      });
+      this.setState({
+        dailyAirTemperature: {
+          labels: day,
+          datasets: [
+            {
+              label: "Dayly Temperature",
+              data: data.map(entry => Math.floor(entry.air_temperature_at_2m_above_ground_level-273.15))
+              .filter(entry=> entry !==undefined)
+            }
+          ]
+        }
+      });
+    })
+  }
+
   render() {
-    const { surfaceSeaWaterSpeedData, waveHeightAndWindSpeedData, windDirectionAndSpeedData } = this.state;
+    const { surfaceSeaWaterSpeedData, waveHeightAndWindSpeedData, windDirectionAndSpeedData, dailyAirTemperature } = this.state;
     return (
       <div className='graph-container'>
         <div className='wave-height-wind-speed-graph'>
@@ -128,9 +152,9 @@ class Dashboard extends Component {
         </div>
         <div className='wave-height-wind-speed-graph'>
           <Graph
-            graphData={surfaceSeaWaterSpeedData}
-            text="The Impact of Wind Speed on Wave Height"
-            type="doughnut"
+            graphData={dailyAirTemperature}
+            text="Daily Temperature Frequency"
+            type="radar"
             width={900}
             height={400}
           />

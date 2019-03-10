@@ -1,5 +1,5 @@
 import React from "react";
-import { Bar, Line, Bubble, Doughnut } from "react-chartjs-2";
+import { Bar, Line, Bubble, Radar } from "react-chartjs-2";
 
 const BarGraph = props => {
   const { graphData, text, type, width, height } = props;
@@ -88,10 +88,10 @@ const BarGraph = props => {
           />
         </div>
       );
-    case "doughnut":
+    case "radar":
       return (
         <div className="chart1">
-          <Doughnut
+          <Radar
             data={graphData}
             width={width}
             height={height}
