@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import moment from "moment";
 import { csv } from "d3-request";
-// import styled from "@emotion/styled";
+import styled from "@emotion/styled";
 import Graph from "../components/Graph";
 import jsonData from "../weatherData/data.json";
 import csvData from "../weatherData/data.csv";
-import './dash.css'
 
 class Dashboard extends Component {
   constructor(props) {
@@ -36,13 +35,17 @@ class Dashboard extends Component {
             {
               label: "Wave Height M",
               data: data.map(entry => entry.sea_surface_wave_significant_height)
-                .filter(entry => entry !== "null")
+                .filter(entry => entry !== "null"),
+              backgroundColor: '#2c82c9'
             },
             {
               label: "Wind Speed m/s",
               data: dates.map(entry => entry.wind_speed_at_10m_above_ground_level)
                 .filter(entry => entry !== undefined),
-              type: "line"
+              type: "line",
+              borderColor: '#3498db',
+              pointBackgroundColor: '#ecf0f1',
+              backgroundColor: '#c5eff7'
             }
           ]
         }
@@ -62,7 +65,8 @@ class Dashboard extends Component {
           {
             label: "Speed m/s",
             data: dates.map(key=> jsonData[key].surface_sea_water_speed)
-            .filter(entry=> entry !==undefined)
+            .filter(entry=> entry !==undefined),
+            backgroundColor: '#f1a9a0'
           }
         ]
       }
@@ -77,7 +81,7 @@ class Dashboard extends Component {
         const obj = {
           x: entry.wind_speed_at_10m_above_ground_level,
           y: entry.wind_from_direction_at_10m_above_ground_level,
-          r: 5
+          r: 4
         }
         dataPoints.push(obj);
       })
@@ -87,7 +91,10 @@ class Dashboard extends Component {
           datasets: [
             {
               label: "Wind Direction",
-              data: dataPoints
+              data: dataPoints,
+              backgroundColor: '#7befb2',
+              borderColor: '#3fc380',
+              hoverBackgroundColor: '#f1a9a0'
             },
           ]
         }
@@ -107,9 +114,12 @@ class Dashboard extends Component {
           labels: day,
           datasets: [
             {
-              label: "Dayly Temperature",
+              label: "Daily Temperature",
               data: data.map(entry => Math.floor(entry.air_temperature_at_2m_above_ground_level-273.15))
-              .filter(entry=> entry !==undefined)
+              .filter(entry=> entry !==undefined),
+              backgroundColor: 'rgba(25, 181, 254, 0.2)',
+              borderColor: '#19b5fe',
+              pointBackgroundColor: '#ecf0f1'
             }
           ]
         }
@@ -120,7 +130,7 @@ class Dashboard extends Component {
   render() {
     const { surfaceSeaWaterSpeedData, waveHeightAndWindSpeedData, windDirectionAndSpeedData, dailyAirTemperature } = this.state;
     return (
-      <div className='graph-container'>
+      <GraphContainer className='graph-container '>
         <div className='wave-height-wind-speed-graph'>
           <Graph
             graphData={waveHeightAndWindSpeedData}
@@ -130,7 +140,7 @@ class Dashboard extends Component {
             height={400}
           />
         </div>
-        <div className='water-speed-graph'>
+        <WaterSpeedGraph className='water-speed-graph'>
           <div>
             <Graph
               graphData={surfaceSeaWaterSpeedData}
@@ -149,7 +159,7 @@ class Dashboard extends Component {
               height={275}
             />
           </div>
-        </div>
+        </WaterSpeedGraph>
         <div className='wave-height-wind-speed-graph'>
           <Graph
             graphData={dailyAirTemperature}
@@ -159,10 +169,23 @@ class Dashboard extends Component {
             height={400}
           />
           </div>
-      </div>
+      </GraphContainer>
       
     );
   }
 }
+
+const GraphContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ecf0f1;
+`
+
+const WaterSpeedGraph = styled('div')`
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+`
 
 export default Dashboard;
