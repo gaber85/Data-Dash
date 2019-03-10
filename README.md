@@ -35,8 +35,6 @@ To run the dashboard follow these instructions:
 
 [React](https://github.com/facebook/react) - A declarative, efficient, and flexible JavaScript library for building user interfaces. 
 
-[Redux](https://github.com/reduxjs/redux) - Predictable state container for JavaScript apps.
-
 [Emotion](https://github.com/emotion-js/emotion) - CSS-in-JS library designed for high performance style composition.
 
 [ChartJs](https://github.com/chartjs/Chart.js) - Simple HTML5 Charts using the <canvas> tag.
