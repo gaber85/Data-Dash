@@ -1,12 +1,12 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
-const LineGraph = props => {
+const BarGraph = props => {
   const { graphData, text } = props;
 
   return (
     <div className="chart1">
-      <Line
+      <Bar
         data={graphData}
         options={{
           title: {
@@ -22,4 +22,4 @@ const LineGraph = props => {
   );
 };
 
-export default LineGraph;
+export default BarGraph;
