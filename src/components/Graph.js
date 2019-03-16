@@ -3,6 +3,25 @@ import { Bar, Line, Bubble, Radar } from "react-chartjs-2";
 
 const BarGraph = props => {
   const { graphData, text, type, width, height } = props;
+  const graphOptions = {
+      title: {
+        display: true,
+        text,
+        fontSize: 18
+      },
+      legend: {
+        display: true
+      },
+      layout: {
+        padding: {
+          left: 10,
+          right: 10,
+          top: 10,
+          bottom: 10
+        }
+      }
+    }
+  
   switch (type) {
     case "bar":
       return (
@@ -11,24 +30,7 @@ const BarGraph = props => {
             data={graphData}
             width={width}
             height={height}
-            options={{
-              title: {
-                display: true,
-                text,
-                fontSize: 18
-              },
-              legend: {
-                display: true
-              },
-              layout: {
-                padding: {
-                  left: 10,
-                  right: 10,
-                  top: 10,
-                  bottom: 10
-                }
-              }
-            }}
+            options={graphOptions}
           />
         </div>
       );
@@ -39,24 +41,7 @@ const BarGraph = props => {
             data={graphData}
             width={width}
             height={height}
-            options={{
-              title: {
-                display: true,
-                text,
-                fontSize: 18
-              },
-              legend: {
-                display: true
-              },
-              layout: {
-                padding: {
-                  left: 10,
-                  right: 10,
-                  top: 10,
-                  bottom: 10
-                }
-              }
-            }}
+            options={graphOptions}
           />
         </div>
       );
@@ -67,24 +52,7 @@ const BarGraph = props => {
             data={graphData}
             width={width}
             height={height}
-            options={{
-              title: {
-                display: true,
-                text,
-                fontSize: 18
-              },
-              legend: {
-                display: true
-              },
-              layout: {
-                padding: {
-                  left: 10,
-                  right: 10,
-                  top: 10,
-                  bottom: 10
-                }
-              }
-            }}
+            options={graphOptions}
           />
         </div>
       );
@@ -95,24 +63,7 @@ const BarGraph = props => {
             data={graphData}
             width={width}
             height={height}
-            options={{
-              title: {
-                display: true,
-                text,
-                fontSize: 18
-              },
-              legend: {
-                display: true
-              },
-              layout: {
-                padding: {
-                  left: 10,
-                  right: 10,
-                  top: 10,
-                  bottom: 10
-                }
-              }
-            }}
+            options={graphOptions}
           />
         </div>
       );
