@@ -17,7 +17,7 @@ class Dashboard extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getSurfaceSeaWaterSpeed();
     this.getWaveHeightAndWindSpeed();
     this.getWindDirectionAndSpeed();
